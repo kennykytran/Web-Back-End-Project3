@@ -1,0 +1,3 @@
+[DATABASES]
+URL = 'sqlite+aiosqlite:///var/game.db'
+
