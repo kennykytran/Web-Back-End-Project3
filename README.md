@@ -54,9 +54,9 @@ server {
 
 upstream gameservice {
     server 127.0.0.1:5100;
-    server 127.0.0.1:5101;
-    server 127.0.0.1:5102;
-    server 127.0.0.1:5103;
+    server 127.0.0.1:5200;
+    server 127.0.0.1:5300;
+    server 127.0.0.1:5400;
 }
 ```
 
@@ -116,7 +116,7 @@ upstream gameservice {
       ```
    - game
 
-      - create a new game: `http --auth yourusername:yourpassword POST http://tuffix-vm/newgame`
+      - create a new game: `http --auth test:test123 POST http://tuffix-vm/newgame`
       
       Sample Output:
       ```
