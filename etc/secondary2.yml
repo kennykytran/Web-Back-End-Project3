@@ -1,6 +1,7 @@
 mount-dir: "./var/secondary2/mount"
 data-dir: "./var/secondary2/data"
 
+exec: "hypercorn game --reload --debug --bind game.local.gd:$PORT --access-logfile - --error-logfile - --log-level DEBUG"
 
 http:
   addr: ":20204"
