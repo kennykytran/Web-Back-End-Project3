@@ -3,6 +3,7 @@ import sqlite3
 import uuid
 import databases
 import toml
+import itertools
 from quart import Quart, abort, g, request
 from quart_schema import QuartSchema, validate_request
 
@@ -22,17 +23,28 @@ class Guess:
     gameid: str
     word: str
 
+database_list = ['DATABASE_SECONDARY1','DATABASE_SECONDARY2']
+database_index = itertools.cycle(database_list)
 
 async def _connect_db():
-    database = databases.Database(app.config["DATABASES"]["URL"])
+    database = databases.Database(app.config[next(database_index)]["URL"])
     await database.connect()
     return database
 
-
+async def _connect_db_primary():
+    database = databases.Database(app.config["DATABASE_PRIMARY"]["URL"])
+    await database.connect()
+    return database
+#make _get_db_primary function
 def _get_db():
     if not hasattr(g, "sqlite_db"):
         g.sqlite_db = _connect_db()
     return g.sqlite_db
+
+def _get_db_primary():
+    if not hasattr(g, "sqlite_db_primary"):
+        g.sqlite_db_primary = _connect_db_primary()
+    return g.sqlite_db_primary
 
 
 @app.teardown_appcontext
@@ -48,6 +60,7 @@ async def create_game():
     auth = request.authorization
     if auth and auth.username and auth.password:
         db = await _get_db()
+        db_primary = await _get_db_primary()
 
         # Retrive random ID from the answers table
         word = await db.fetch_one(
@@ -66,14 +79,14 @@ async def create_game():
         # Create new game with 0 guesses
         gameid = str(uuid.uuid1())
         values = {"gameid": gameid, "guesses": 0, "gstate": "In-progress"}
-        await db.execute(
+        await db_primary.execute(
             "INSERT INTO game(gameid, guesses, gstate) VALUES(:gameid, :guesses, :gstate)",
             values,
         )
 
         # Create new row into Games table which connect with the recently connected game
         values = {"username": auth.username, "answerid": word[0], "gameid": gameid}
-        await db.execute(
+        await db_primary.execute(
             "INSERT INTO games(username, answerid, gameid) VALUES(:username, :answerid, :gameid)",
             values,
         )
@@ -98,6 +111,7 @@ async def add_guess(data):
     auth = request.authorization
     if auth and auth.username and auth.password:
         db = await _get_db()
+        db_primary = await _get_db_primary()
         currGame = dataclasses.asdict(data)
 
         # checks whether guessed word is the answer for that game
@@ -110,7 +124,7 @@ async def add_guess(data):
         if isAnswer is not None and len(isAnswer) >= 1:
             # update game status
             try:
-                await db.execute(
+                await db_primary.execute(
                     """
                     UPDATE game set gstate = :status where gameid = :gameid
                     """,
@@ -166,7 +180,7 @@ async def add_guess(data):
                         accuracy += "X"
 
                 # insert guess word into guess table with accruracy
-                await db.execute(
+                await db_primary.execute(
                     "INSERT INTO guess(gameid,guessedword, accuracy) VALUES(:gameid, :guessedword, :accuracy)",
                     values={
                         "guessedword": currGame["word"],
@@ -175,7 +189,7 @@ async def add_guess(data):
                     },
                 )
                 # update game table's guess variable by decrementing it
-                await db.execute(
+                await db_primary.execute(
                     """
                     UPDATE game set guesses = :guessNum where gameid = :gameid
                     """,
@@ -188,7 +202,7 @@ async def add_guess(data):
                 # if after updating game number of guesses reaches max guesses then mark game as finished
                 if guessNum[0] + 1 >= 6:
                     # update game status as finished
-                    await db.execute(
+                    await db_primary.execute(
                         """
                         UPDATE game set gstate = :status where gameid = :gameid
                         """,
