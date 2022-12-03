@@ -23,7 +23,7 @@ class Guess:
     gameid: str
     word: str
 
-database_list = ['DATABASE_SECONDARY1','DATABASE_SECONDARY2']
+database_list = ['DATABASE_PRIMARY','DATABASE_SECONDARY1','DATABASE_SECONDARY2']
 database_index = itertools.cycle(database_list)
 
 async def _connect_db():
