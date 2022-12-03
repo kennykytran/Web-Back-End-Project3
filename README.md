@@ -79,7 +79,7 @@ upstream gameservice {
 4. Start the API
 
    ```c
-      foreman start --formation user=1,game=3
+      foreman start
       // NOTE: if there's an error upon running this where it doesn't recognize hypercorn, log out of Ubuntu and log back in.
    ```
 
