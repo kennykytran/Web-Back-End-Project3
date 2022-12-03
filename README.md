@@ -1,15 +1,15 @@
 ### Backend Project 2
 
-| Group 5         |
-| --------------- |
-| Himani Tawade   |
-| Kenny Tran      |
-| Nicholas Girmes |
-| Mike Ploythai   |
+| Group 4          |
+| ---------------  |
+| Ajinkya Bhalerao |
+| Kenny Tran       |
+| Nicholas Girmes  |
+| Sarthak Gajjar   |
 
 ##### HOW TO RUN THE PROJECT
 
-1. Copy the contents of our [nginx config file](https://github.com/himanitawade/Web-Back-End-Project2/blob/master/nginxconfig.txt) into a new file within `/etc/nginx/sites-enabled` called `nginxconfig`. Assuming the nginx service is already running, restart the service using `sudo service nginx restart`.
+1. Copy the contents of our [nginx config file](https://github.com/ktranfullerton2000/Web-Back-End-Project3/blob/main/nginxconfig.txt) into a new file within `/etc/nginx/sites-enabled` called `nginxconfig`. Assuming the nginx service is already running, restart the service using `sudo service nginx restart`.
 
 Nginx Config:
 
@@ -60,14 +60,14 @@ upstream gameservice {
 }
 ```
 
-2. Initialize the databases within the project folder
+2. Initialize the folder stucture within the project folder
 
    ```c
       // step 1. give the script permissions to execute
-      chmod +x ./bin/init.sh
+      chmod +x ./bin/folder.sh
 
       // step 2. run the script
-      ./bin/init.sh
+      ./bin/folder.sh
    ```
 
 3. Populate the word databases
@@ -83,7 +83,17 @@ upstream gameservice {
       // NOTE: if there's an error upon running this where it doesn't recognize hypercorn, log out of Ubuntu and log back in.
    ```
 
-5. Test all the endpoints using httpie
+5. Initialize the databases within the project folder
+
+   ```c
+      // step 1. give the script permissions to execute
+      chmod +x ./bin/init.sh
+
+      // step 2. run the script
+      ./bin/init.sh
+   ```
+
+6. Test all the endpoints using httpie
    - user
       - register account: `http POST http://tuffix-vm/registration username="yourusername" password="yourpassword"`
     
