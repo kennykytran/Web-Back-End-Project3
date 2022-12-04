@@ -70,20 +70,14 @@ upstream gameservice {
       ./bin/folder.sh
    ```
 
-3. Populate the word databases
-
-   ```c
-      python3 dbpop.py
-   ```
-
-4. Start the API
+3. Start the API
 
    ```c
       foreman start
       // NOTE: if there's an error upon running this where it doesn't recognize hypercorn, log out of Ubuntu and log back in.
    ```
 
-5. Initialize the databases within the project folder
+4. Initialize the databases within the project folder
 
    ```c
       // step 1. give the script permissions to execute
@@ -91,6 +85,12 @@ upstream gameservice {
 
       // step 2. run the script
       ./bin/init.sh
+   ```
+
+5. Populate the word databases
+
+   ```c
+      python3 dbpop.py
    ```
 
 6. Test all the endpoints using httpie
