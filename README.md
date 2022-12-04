@@ -56,11 +56,10 @@ upstream gameservice {
     server 127.0.0.1:5100;
     server 127.0.0.1:5200;
     server 127.0.0.1:5300;
-    server 127.0.0.1:5400;
 }
 ```
 
-2. Initialize the folder stucture within the project folder
+2. Initialize the folder stucture within the project folder and install redis if you have not previously installed
 
    ```c
       // step 1. give the script permissions to execute
@@ -68,6 +67,11 @@ upstream gameservice {
 
       // step 2. run the script
       ./bin/folder.sh
+   ```
+   
+   ```c
+      // step 3. install redis
+      pip install redis
    ```
 
 3. Start the API
@@ -178,3 +182,39 @@ upstream gameservice {
           }
       ]
       ```
+7. Test leaderboard using http docs: http//127.0.0.1:5400/docs
+
+    POST/results 
+    Sample input:
+    ```
+        {
+        "guesses": 5,
+        "result": "win",
+        "username": "User"
+        }
+    ```
+    Sample output:
+    ```
+    {
+        "average_score": "2",
+        "game_count": "1",
+        "result": "win",
+        "score": "2",
+        "username": "User"
+    }
+    ```
+    
+    GET/leaderboard
+    Sample output:
+    ```
+    ('userg', 6.0)
+    ('usera', 6.0)
+    ('userf', 5.0)
+    ('userc', 5.0)
+    ('userh', 4.0)
+    ('usere', 4.0)
+    ('userd', 4.0)
+    ('userb', 4.0)
+    ('user3', 3.0)
+    ('user', 3.0)
+    ```
