@@ -101,11 +101,11 @@ upstream gameservice {
        ```
       {
          "id": 3,
-         "password": "tawade",
-         "username": "himani"
+         "password": "yourusername",
+         "username": "yourpassword"
       }
       ```
-     - login {Not accesible}: 'http --auth himani:tawade GET http://tuffix-vm/login'
+     - login {Not accesible}: 'http --auth yourusername:yourpassword GET http://tuffix-vm/login'
      Sample Output:
      ```
       HTTP/1.1 404 Not Found
@@ -130,11 +130,11 @@ upstream gameservice {
       
       Sample Output:
       ```
-      'http --auth himani:tawade POST http://tuffix-vm/newgame'
+      'http --auth yourusername:yourpassword POST http://tuffix-vm/newgame'
       {
          "answerid": 3912,
          "gameid": "b0039f36-6784-11ed-ba4a-615e339a8400",
-         "username": "himani"
+         "username": "yourusername"
       }
       ```
       Note - this will return a `gameid`
@@ -142,7 +142,7 @@ upstream gameservice {
 
     Sample Output:
     ```
-      http --auth himani:tawade PUT http://tuffix-vm/addguess gameid="b0039f36-6784-11ed-ba4a-615e339a8400" word="amigo"
+      http --auth yourusername:yourpassword PUT http://tuffix-vm/addguess gameid="b0039f36-6784-11ed-ba4a-615e339a8400" word="amigo"
      {
         "Accuracy": "XXOOO",
         "guessedWord": "amigo"
@@ -152,7 +152,7 @@ upstream gameservice {
 
     Sample Output:
     ```
-      http --auth himani:tawade GET http://tuffix-vm/allgames
+      http --auth yourusername:yourpassword GET http://tuffix-vm/allgames
       [
          {
             "gameid": "b0039f36-6784-11ed-ba4a-615e339a8400",
@@ -165,7 +165,7 @@ upstream gameservice {
        - example: `.../onegame?id=b97fcbb0-6717-11ed-8689-e9ba279d21b6`
     Sample Output:
     ```
-      http --auth himani:tawade GET http://tuffix-vm/onegame?id="b0039f36-6784-11ed-ba4a-615e339a8400"
+      http --auth yourusername:yourpassword GET http://tuffix-vm/onegame?id="b0039f36-6784-11ed-ba4a-615e339a8400"
       [
          {
              "gameid": "b0039f36-6784-11ed-ba4a-615e339a8400",
